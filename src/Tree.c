@@ -1,12 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct node {
-    int type;
-    void *value;
-    struct node *left;
-    struct node *right;
-} *Node;
+#include "Tree.h"
 
 Node newNode(int type, void *value) {
     Node new = malloc(sizeof(new));
@@ -17,4 +11,4 @@ Node newNode(int type, void *value) {
     return new;
 }
 
-
+Node 
