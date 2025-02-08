@@ -19,18 +19,6 @@ void printTokens(char **tokens);
 void freeTokens(char **tokens);
 int isOperator(char *token);
 
-int main(int argc, char *argv[]) {
-    char input[1000];
-    strcpy(input, "(+ 5 20)");
-    printf("Input: %s\n", input);
-
-    char **tokens = tokenise(input);
-    printTokens(tokens);
-    freeTokens(tokens);
-    
-    return 0;
-}
-
 // Converts a string into a array of valid tokens
 char **tokenise(char *input) {
     char **tokens = calloc(sizeof(char *), MAX_TOKENS);
@@ -42,8 +30,18 @@ char **tokenise(char *input) {
     for (int i = 0; input[i] != '\0'; ++i) {
         if (isspace(input[i])) {
             continue;
-        } else {
-            while (!isspace(input[i])) {
+        } else if (input[i] == '(' || input[i] == ')') {
+            buf[index++] = input[i];
+            buf[index] = '\0';
+
+            char *token = malloc(sizeof(char) * strlen(buf) + 1);
+            strcpy(token, buf);
+            tokens[ntokens++] = token;
+
+            index = 0;
+            continue;
+	    } else {
+            while (!isspace(input[i]) && input[i] != ')') {
                 buf[index++] = input[i++];
             }
             buf[index] = '\0';
@@ -89,3 +87,17 @@ int isOperator(char *token) {
     }
     return 0;
 }
+
+/*
+int main(int argc, char *argv[]) {
+    char input[1000];
+    strcpy(input, "(defun k (- (+ 5 20) 10))");
+    printf("Input: %s\n", input);
+
+    char **tokens = tokenise(input);
+    printTokens(tokens);
+    freeTokens(tokens);
+    
+    return 0;
+}
+*/
